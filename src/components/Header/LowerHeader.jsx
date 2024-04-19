@@ -8,17 +8,21 @@ export default function LowerHeader() {
           <AiOutlineMenu />
           All
         </li>
-        <li className="p-2 hover:border-white hover:rounded-[3px]">
+        <li className="hidden sm:block p-2 hover:border-white hover:rounded-[3px]">
           Today&apos;s Deals
         </li>
-        <li className="p-2 hover:border-white hover:rounded-[3px]">
+        <li className="hidden sm:block p-2 hover:border-white hover:rounded-[3px]">
           Customer Service
         </li>
-        <li className="p-2 hover:border-white hover:rounded-[3px]">Registry</li>
-        <li className="p-2 hover:border-white hover:rounded-[3px]">
+        <li className="hidden sm:block p-2 hover:border-white hover:rounded-[3px]">
+          Registry
+        </li>
+        <li className="hidden sm:block p-2 hover:border-white hover:rounded-[3px]">
           Gift Cards
         </li>
-        <li className="p-2 hover:border-white hover:rounded-[3px]">Sell</li>
+        <li className="hidden sm:block p-2 hover:border-white hover:rounded-[3px]">
+          Sell
+        </li>
       </ul>
     </div>
   );

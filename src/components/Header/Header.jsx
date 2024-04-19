@@ -7,7 +7,7 @@ export default function Header() {
   return (
     <>
       <section className="">
-        <div className="bg-[#1a1a1a] flex gap-2.5 items-center text-white h-[70px]">
+        <div className="flex flex-col h-auto bg-[#1a1a1a] sm:flex-row gap-2.5 items-center text-white sm:h-[70px]">
           <div className="flex items-center justify-center max-w-[250px]">
             <a href="/" className="">
               <img
@@ -49,7 +49,7 @@ export default function Header() {
           <div className="flex items-center justify-center max-w-[450px] gap-2.5">
             <a
               href=""
-              className="text-decoration-none text-white w-[100px] flex p-2.5 hover:border-[1px] hover:border-white hover:rounded-[3px]"
+              className="hidden text-decoration-none text-white w-[100px] sm:flex p-2.5 hover:border-[1px] hover:border-white hover:rounded-[3px]"
             >
               <img
                 className="w-2/5"
