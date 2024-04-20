@@ -30,7 +30,12 @@ export default function ProductDetail() {
       {loading ? (
         <Loader />
       ) : (
-        <ProductCard product={product} isFlex={true} renderDesc={true} />
+        <ProductCard
+          product={product}
+          isFlex={true}
+          renderDesc={true}
+          renderAdd={true}
+        />
       )}
     </Layout>
   );

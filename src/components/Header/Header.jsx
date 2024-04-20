@@ -8,6 +8,7 @@ import { useContext } from "react";
 
 export default function Header() {
   const [{ basket }] = useContext(DataContext);
+  const totalItem = basket?.reduce((amount, item) => item.amount + amount, 0);
 
   return (
     <section className="sticky top-0 z-50">
@@ -92,8 +93,8 @@ export default function Header() {
               className="text-decoration-none text-white relative hover:border-[1px] hover:border-white hover:rounded-[3px]"
             >
               <BiCart size={35} />
-              <span className="absolute font-bold -top-2 left-4 text-[20px] bg-[#1a1a1a] text-orange-500">
-                {basket.length}
+              <span className="absolute font-bold -top-1 left-3 text-[14px] bg-[#1a1a1a] text-orange-500 w-[15px] text-center">
+                {totalItem}
               </span>
             </Link>
           </div>
