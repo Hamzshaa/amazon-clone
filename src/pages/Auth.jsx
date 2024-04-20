@@ -1,6 +1,56 @@
 import { Link } from "react-router-dom";
+import { auth } from "../utility/firebase";
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
+import { useContext, useState } from "react";
+import { DataContext } from "../components/DataProvider";
 
 export default function Auth() {
+  const [inputs, setInputs] = useState(null);
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState({ signIn: false, signUp: false });
+
+  const [{ user }, dispatch] = useContext(DataContext);
+
+  const authHandler = (e) => {
+    e.preventDefault();
+
+    if (e.target.name === "signIn") {
+      setIsLoading({ ...isLoading, signIn: true });
+      signInWithEmailAndPassword(auth, inputs.email, inputs.password)
+        .then((userInfo) => {
+          dispatch({ type: "SET_USER", user: userInfo.user });
+        })
+        .catch((error) => {
+          setError(error.message);
+        })
+        .finally(() => {
+          setIsLoading({ ...isLoading, signIn: false });
+        });
+    } else {
+      setIsLoading({ ...isLoading, signUp: true });
+      createUserWithEmailAndPassword(auth, inputs.email, inputs.password)
+        .then((userInfo) => {
+          dispatch({ type: "SET_USER", user: userInfo.user });
+        })
+        .catch((error) => {
+          setError(error.message);
+        })
+        .finally(() => {
+          setIsLoading({ ...isLoading, signUp: false });
+        });
+    }
+  };
+
+  const handleInputChange = (e) => {
+    setInputs({
+      ...inputs,
+      [e.target.id]: e.target.value,
+    });
+  };
+
   return (
     <section className="h-screen flex flex-col items-center">
       <Link to="/" className="">
@@ -22,6 +72,8 @@ export default function Auth() {
               type="email"
               id="email"
               className="mb-2.5 py-2 px-4 bg-white w-full border-gray-400 border-[1px] rounded-md focus:outline-1 focus:outline-blue-400"
+              onChange={handleInputChange}
+              value={inputs?.email}
               required
             />
           </div>
@@ -33,10 +85,17 @@ export default function Auth() {
               type="password"
               id="password"
               className="mb-2.5 py-2 px-4 bg-white w-full border-gray-400 border-[1px] rounded-md focus:outline-1 focus:outline-blue-400"
+              onChange={handleInputChange}
+              value={inputs?.password}
               required
             />
           </div>
-          <button className="border-none bg-[#f0c14b] rounded-md w-full h-8 mt-2.5 cursor-pointer hover:bg-[var(--primary-shade)]">
+          <button
+            className="border-none bg-[#f0c14b] rounded-md w-full h-8 mt-2.5 cursor-pointer hover:bg-[var(--primary-shade)]"
+            name="signIn"
+            type="submit"
+            onClick={authHandler}
+          >
             Sign In
           </button>
         </form>
@@ -46,9 +105,19 @@ export default function Auth() {
           Interest-Based Ads Notice.
         </p>
 
-        <button className="border-none rounded-md w-full h-8 mt-2.5 cursor-pointer bg-gray-300 hover:bg-gray-400">
+        <button
+          className="border-none rounded-md w-full h-8 mt-2.5 cursor-pointer bg-gray-300 hover:bg-gray-400"
+          name="signUp"
+          type="submit"
+          onClick={authHandler}
+        >
           Create your Amazon Account
         </button>
+        {error && (
+          <div className="bg-red-500 text-red-950 text-sm mt-4 p-2 text-center rounded-md">
+            {error}
+          </div>
+        )}
       </div>
     </section>
   );
