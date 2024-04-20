@@ -103,7 +103,7 @@ export default function Header() {
               className="text-decoration-none text-white relative hover:border-[1px] hover:border-white hover:rounded-[3px]"
             >
               <BiCart size={35} />
-              <span className="absolute font-bold -top-1 left-3 text-[14px] bg-[#1a1a1a] text-orange-500 w-[15px] text-center">
+              <span className="absolute font-bold -top-1.5 left-3 text-[14px] bg-[#1a1a1a] text-orange-500 w-[15px] text-center rounded-full">
                 {totalItem}
               </span>
             </Link>
