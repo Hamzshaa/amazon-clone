@@ -1,19 +1,20 @@
 import Rating from "@mui/material/Rating";
 import CurrencyFormat from "../CurrencyFormat";
 import propTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 export default function ProductCard({ product }) {
-  const { image, title, rating, price } = product;
+  const { image, title, id, rating, price } = product;
 
   return (
     <div className="w-[250px] shadow-md p-2.5 text-black no-underline relative group grid-item min-h-full align-self:stretch">
-      <a href="">
+      <Link to={`/products/${id}`}>
         <img
           src={image}
           alt="product image"
           className="p-2.5 w-full h-[200px] object-contain"
         />
-      </a>
+      </Link>
       <div>
         <h3 className="font-semibold">{title}</h3>
         <div className="flex items-center py-2.5">
