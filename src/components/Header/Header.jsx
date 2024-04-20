@@ -10,8 +10,8 @@ export default function Header() {
   const [{ basket }] = useContext(DataContext);
 
   return (
-    <>
-      <section className="">
+    <section className="sticky top-0 z-50">
+      <section>
         <div className="flex flex-col h-auto bg-[#1a1a1a] sm:flex-row gap-2.5 items-center text-white sm:h-[70px]">
           <div className="flex items-center justify-center max-w-[250px]">
             <Link
@@ -100,6 +100,6 @@ export default function Header() {
         </div>
       </section>
       <LowerHeader />
-    </>
+    </section>
   );
 }
