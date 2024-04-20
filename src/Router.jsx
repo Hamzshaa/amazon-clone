@@ -4,6 +4,7 @@ import Cart from "./pages/Cart";
 import Orders from "./pages/Orders";
 import Payment from "./pages/Payment";
 import Signup from "./pages/Signup";
+import Results from "./pages/Results";
 
 export default function Router() {
   return (
@@ -13,6 +14,7 @@ export default function Router() {
         <Route path="/auth" element={<Signup />} />
         <Route path="/payments" element={<Payment />} />
         <Route path="/orders" element={<Orders />} />
+        <Route path="/category/:categoryName" element={<Results />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="*" element={<div>404</div>} />
       </Routes>
