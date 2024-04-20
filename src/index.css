@@ -16,8 +16,7 @@
     height: 300px;
     background-image: linear-gradient(
       to bottom,
-      transparent,
-      rgba(225, 225, 225, 0),
+      /* transparent, */ rgba(225, 225, 225, 0),
       rgba(225, 225, 225)
     );
   }

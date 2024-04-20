@@ -2,6 +2,7 @@ import { BsSearch } from "react-icons/bs";
 import { SlLocationPin } from "react-icons/sl";
 import { BiCart } from "react-icons/bi";
 import LowerHeader from "./LowerHeader";
+import { Link } from "react-router-dom";
 
 export default function Header() {
   return (
@@ -9,13 +10,16 @@ export default function Header() {
       <section className="">
         <div className="flex flex-col h-auto bg-[#1a1a1a] sm:flex-row gap-2.5 items-center text-white sm:h-[70px]">
           <div className="flex items-center justify-center max-w-[250px]">
-            <a href="/" className="">
+            <Link
+              to="/"
+              className="hover:border-[1px] hover:border-white hover:rounded-[3px]"
+            >
               <img
                 className="w-4/5 pt-[5px] ml-5 align-middle"
                 src="https://pngimg.com/uploads/amazon/amazon_PNG11.png"
                 alt="Amazon Logo"
               />
-            </a>
+            </Link>
             <div className="flex justify-center items-center gap-[3px] font-bold p-[5px] hover:border-[1px] hover:border-white hover:rounded-[3px]">
               <span className="">
                 <SlLocationPin color="green" />
@@ -47,8 +51,8 @@ export default function Header() {
           </div>
 
           <div className="flex items-center justify-center max-w-[450px] gap-2.5">
-            <a
-              href=""
+            <Link
+              to=""
               className="hidden text-decoration-none text-white w-[100px] sm:flex p-2.5 hover:border-[1px] hover:border-white hover:rounded-[3px]"
             >
               <img
@@ -59,35 +63,35 @@ export default function Header() {
               <section className="bg-[#1a1a1a] text-white">
                 <option value="">EN</option>
               </section>
-            </a>
+            </Link>
 
-            <a
-              href=""
+            <Link
+              to="/auth"
               className="text-decoration-none text-white hover:border-[1px] hover:border-white hover:rounded-[3px]"
             >
               <div className="">
                 <p className="text-[10px]">Sign In</p>
                 <span className="">Account & Lists</span>
               </div>
-            </a>
+            </Link>
 
-            <a
-              href=""
+            <Link
+              to="/orders"
               className="text-decoration-none text-white hover:border-[1px] hover:border-white hover:rounded-[3px]"
             >
               <p className="text-[10px]">returns</p>
               <span className="">$ Orders</span>
-            </a>
+            </Link>
 
-            <a
-              href=""
+            <Link
+              to="/cart"
               className="text-decoration-none text-white relative hover:border-[1px] hover:border-white hover:rounded-[3px]"
             >
               <BiCart size={35} />
               <span className="absolute font-bold -top-2 left-4 text-[20px] bg-[#1a1a1a] text-orange-500">
                 0
               </span>
-            </a>
+            </Link>
           </div>
         </div>
       </section>

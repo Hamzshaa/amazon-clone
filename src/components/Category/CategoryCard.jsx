@@ -2,7 +2,7 @@ import propTypes from "prop-types";
 
 export default function CategoryCard({ data }) {
   return (
-    <div className="h-[350px] w-[350px] bg-white shadow-xl">
+    <div className="h-[350px] w-[350px] bg-white shadow-xl mb-2 md:mb-0">
       <a href="" className="text-decoration-none text-[#232323]">
         <span>
           <h2 className="p-[5px] ml-[15px]">{data.title}</h2>
