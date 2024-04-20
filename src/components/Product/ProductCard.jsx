@@ -19,8 +19,8 @@ export default function ProductCard({ product }) {
         <h3 className="font-semibold">{title}</h3>
         <div className="flex items-center py-2.5">
           {/* rating */}
-          <Rating value={rating.rate} precision={0.5} />
-          <small>{rating.count}</small>
+          <Rating value={rating?.rate} precision={0.5} />
+          <small>{rating?.count}</small>
         </div>
         <div className="mb-10">
           <CurrencyFormat amount={price} />

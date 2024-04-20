@@ -4,29 +4,28 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { productUrl } from "../Api/endPoints";
 import ProductCard from "../components/Product/ProductCard";
+import Loader from "../components/Loader";
 
 export default function ProductDetail() {
   const [product, setProduct] = useState({});
+  const [loading, setLoading] = useState(false);
   const { productId } = useParams();
 
   useEffect(() => {
+    setLoading(true);
     axios
       .get(`${productUrl}/products/${productId}`)
       .then((res) => {
         setProduct(res.data);
+        setLoading(false);
       })
-      .catch((e) => console.log(e));
+      .catch((e) => {
+        setLoading(false);
+        console.log(e);
+      });
   }, [productId]);
 
   return (
-    <Layout>
-      {product && Object.keys(product).length > 0 ? ( // Check if product is not empty
-        <ProductCard product={product} />
-      ) : (
-        <p className="mt-20 p-10 text-gray-400">
-          Loading product details . . .
-        </p>
-      )}
-    </Layout>
+    <Layout>{loading ? <Loader /> : <ProductCard product={product} />}</Layout>
   );
 }

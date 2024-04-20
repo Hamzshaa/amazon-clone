@@ -80,7 +80,7 @@ export default function Header() {
               className="text-decoration-none text-white hover:border-[1px] hover:border-white hover:rounded-[3px]"
             >
               <p className="text-[10px]">returns</p>
-              <span className="">$ Orders</span>
+              <span className="">& Orders</span>
             </Link>
 
             <Link
