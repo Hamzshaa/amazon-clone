@@ -1,4 +1,5 @@
 import CarouselComponent from "./components/Carousel/CarouselComponent";
+import Category from "./components/Category/Category";
 import Header from "./components/Header/Header";
 
 function App() {
@@ -6,6 +7,7 @@ function App() {
     <div className="p-0 m-0">
       <Header />
       <CarouselComponent />
+      <Category />
     </div>
   );
 }
