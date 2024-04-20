@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../utility/firebase";
 import {
   signInWithEmailAndPassword,
@@ -6,13 +6,15 @@ import {
 } from "firebase/auth";
 import { useContext, useState } from "react";
 import { DataContext } from "../components/DataProvider";
+import { ClipLoader } from "react-spinners";
 
 export default function Auth() {
   const [inputs, setInputs] = useState(null);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState({ signIn: false, signUp: false });
 
-  const [{ user }, dispatch] = useContext(DataContext);
+  const [{ user }, dispatch] = useContext(DataContext); // eslint-disable-line
+  const navigate = useNavigate();
 
   const authHandler = (e) => {
     e.preventDefault();
@@ -22,6 +24,7 @@ export default function Auth() {
       signInWithEmailAndPassword(auth, inputs.email, inputs.password)
         .then((userInfo) => {
           dispatch({ type: "SET_USER", user: userInfo.user });
+          navigate("/");
         })
         .catch((error) => {
           setError(error.message);
@@ -34,6 +37,7 @@ export default function Auth() {
       createUserWithEmailAndPassword(auth, inputs.email, inputs.password)
         .then((userInfo) => {
           dispatch({ type: "SET_USER", user: userInfo.user });
+          navigate("/");
         })
         .catch((error) => {
           setError(error.message);
@@ -96,7 +100,11 @@ export default function Auth() {
             type="submit"
             onClick={authHandler}
           >
-            Sign In
+            {isLoading.signIn ? (
+              <ClipLoader color="white" size={15} />
+            ) : (
+              "Sign In"
+            )}
           </button>
         </form>
         <p className="py-2.5 text-sm">
@@ -111,7 +119,11 @@ export default function Auth() {
           type="submit"
           onClick={authHandler}
         >
-          Create your Amazon Account
+          {isLoading.signUp ? (
+            <ClipLoader color="white" size={15} />
+          ) : (
+            "Create your Amazon Account"
+          )}
         </button>
         {error && (
           <div className="bg-red-500 text-red-950 text-sm mt-4 p-2 text-center rounded-md">
