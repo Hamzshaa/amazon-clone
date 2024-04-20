@@ -26,6 +26,12 @@ export default function ProductDetail() {
   }, [productId]);
 
   return (
-    <Layout>{loading ? <Loader /> : <ProductCard product={product} />}</Layout>
+    <Layout>
+      {loading ? (
+        <Loader />
+      ) : (
+        <ProductCard product={product} isFlex={true} renderDesc={true} />
+      )}
+    </Layout>
   );
 }

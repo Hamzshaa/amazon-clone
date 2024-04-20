@@ -3,8 +3,12 @@ import { SlLocationPin } from "react-icons/sl";
 import { BiCart } from "react-icons/bi";
 import LowerHeader from "./LowerHeader";
 import { Link } from "react-router-dom";
+import { DataContext } from "../DataProvider";
+import { useContext } from "react";
 
 export default function Header() {
+  const [{ basket }] = useContext(DataContext);
+
   return (
     <>
       <section className="">
@@ -89,7 +93,7 @@ export default function Header() {
             >
               <BiCart size={35} />
               <span className="absolute font-bold -top-2 left-4 text-[20px] bg-[#1a1a1a] text-orange-500">
-                0
+                {basket.length}
               </span>
             </Link>
           </div>
