@@ -22,3 +22,9 @@
     );
   }
 }
+
+/* Payment page */
+
+.payment-page__flex img {
+  width: 80px !important;
+}
