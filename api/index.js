@@ -14,9 +14,15 @@ const app = express();
 app.use(cors({ origin: true }));
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("Hello World");
+app.use(express.static(path.join(__dirname, "/client/dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
 });
+
+// app.get("/", (req, res) => {
+//   res.send("Hello World");
+// });
 
 app.post("/payments/create", async (req, res) => {
   console.log("First");
@@ -34,12 +40,6 @@ app.post("/payments/create", async (req, res) => {
   } else {
     res.status(400).send("Invalid total amount");
   }
-});
-
-app.use(express.static(path.join(__dirname, "/client/dist")));
-
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
 });
 
 app.listen(5000, () => console.log("Server is running on port 5000"));
