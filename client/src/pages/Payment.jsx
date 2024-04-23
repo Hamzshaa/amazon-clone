@@ -8,11 +8,12 @@ import { axiosInstance } from "../Api/axios";
 import ClipLoader from "react-spinners/ClipLoader";
 import { db } from "../utility/firebase";
 import { useNavigate } from "react-router-dom";
+import { Type } from "../utility/action.type";
 
 export default function Payment() {
   const [cardError, setCardError] = useState(null);
   const [processing, setProcessing] = useState(false);
-  const [{ basket, user }] = useContext(DataContext);
+  const [{ basket, user }, dispatch] = useContext(DataContext);
   const totalItem = basket?.reduce((amount, item) => item.amount + amount, 0);
   const stripe = useStripe();
   const elements = useElements();
@@ -53,6 +54,8 @@ export default function Payment() {
           amount: paymentIntent.amount,
           created: paymentIntent.created,
         });
+
+      dispatch({ type: Type.EMPTY_BASKET });
 
       navigate("/orders", {
         state: { msg: "you have successfully placed your order" },

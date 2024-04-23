@@ -40,7 +40,7 @@ export default function ProductCard({
         />
       </Link>
       <div>
-        <h3 className={`font-semibold  ${isFlex && "py-5"}`}>{title}</h3>
+        <h3 className={`font-bold  ${isFlex && "py-5"}`}>{title}</h3>
         {renderDesc && <div className="max-w-[750px]">{description}</div>}
         <div className="flex items-center py-2.5">
           {/* rating */}
