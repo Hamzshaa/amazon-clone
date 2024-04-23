@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { auth } from "../utility/firebase";
 import {
   signInWithEmailAndPassword,
@@ -15,6 +15,7 @@ export default function Auth() {
 
   const [{ user }, dispatch] = useContext(DataContext); // eslint-disable-line
   const navigate = useNavigate();
+  const navStateData = useLocation().state;
 
   const authHandler = (e) => {
     e.preventDefault();
@@ -24,7 +25,7 @@ export default function Auth() {
       signInWithEmailAndPassword(auth, inputs.email, inputs.password)
         .then((userInfo) => {
           dispatch({ type: "SET_USER", user: userInfo.user });
-          navigate("/");
+          navigate(navStateData.redirect || "/");
         })
         .catch((error) => {
           setError(error.message);
@@ -37,7 +38,7 @@ export default function Auth() {
       createUserWithEmailAndPassword(auth, inputs.email, inputs.password)
         .then((userInfo) => {
           dispatch({ type: "SET_USER", user: userInfo.user });
-          navigate("/");
+          navigate(navStateData.redirect || "/");
         })
         .catch((error) => {
           setError(error.message);
@@ -67,6 +68,11 @@ export default function Auth() {
 
       <div className="w-[350px] flex flex-col rounded-md border-[1px] border-gray-300 p-5">
         <h1 className="text-2xl my-5 font-semibold">Sign-In</h1>
+        {navStateData?.msg && (
+          <small className="p-1.5 text-center text-red-500 font-bold">
+            {navStateData?.msg}
+          </small>
+        )}
         <form action="" className="flex flex-col gap-2.5">
           <div className="flex flex-col gap-1.5">
             <label htmlFor="email" className="">
