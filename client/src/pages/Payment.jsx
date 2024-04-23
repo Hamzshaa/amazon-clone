@@ -4,13 +4,19 @@ import { DataContext } from "../components/DataProvider";
 import ProductCard from "../components/Product/ProductCard";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import CurrencyFormat from "../components/CurrencyFormat";
+import { axiosInstance } from "../Api/axios";
+import ClipLoader from "react-spinners/ClipLoader";
+import { db } from "../utility/firebase";
+import { useNavigate } from "react-router-dom";
 
 export default function Payment() {
   const [cardError, setCardError] = useState(null);
+  const [processing, setProcessing] = useState(false);
   const [{ basket, user }] = useContext(DataContext);
   const totalItem = basket?.reduce((amount, item) => item.amount + amount, 0);
-  const stripe = useStripe(); // eslint-disable-line no-unused-vars
-  const elements = useElements(); // eslint-disable-line no-unused-vars
+  const stripe = useStripe();
+  const elements = useElements();
+  const navigate = useNavigate();
 
   const total = basket?.reduce(
     (amount, item) => item.price * item.amount + amount,
@@ -21,6 +27,43 @@ export default function Payment() {
     e?.error?.message ? setCardError(e.error.message) : setCardError(null);
   };
 
+  const handlePayment = async (e) => {
+    e.preventDefault();
+
+    try {
+      setProcessing(true);
+      const res = await axiosInstance({
+        method: "POST",
+        url: `/payments/create?total=${total * 100}`,
+      });
+
+      const clientSecret = res.data?.clientSecret;
+
+      const { paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: { card: elements.getElement(CardElement) },
+      });
+
+      await db
+        .collection("users")
+        .doc(user?.uid)
+        .collection("orders")
+        .doc(paymentIntent.id)
+        .set({
+          basket: basket,
+          amount: paymentIntent.amount,
+          created: paymentIntent.created,
+        });
+
+      navigate("/orders", {
+        state: { msg: "you have successfully placed your order" },
+      });
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      setProcessing(false);
+    }
+  };
+
   return (
     <Layout>
       <div className="p-5 text-center text-2xl bg-[#eaeded]">
@@ -28,7 +71,7 @@ export default function Payment() {
       </div>
 
       <section className="p-8">
-        <div className="flex gap-5 p-8">
+        <div className="flex flex-col md:flex-row gap-5 p-8">
           <h3 className="min-w-[300px] font-bold text-lg">Delivery Address</h3>
           <div className="">
             <div className="">{user?.email}</div>
@@ -38,7 +81,7 @@ export default function Payment() {
         </div>
         <hr />
 
-        <div className="flex gap-5 p-8 payment-page__flex">
+        <div className="flex flex-col md:flex-row gap-5 p-8 payment-page__flex">
           <h3 className="min-w-[300px] font-bold text-lg">
             Review items and delivery
           </h3>
@@ -50,11 +93,11 @@ export default function Payment() {
         </div>
         <hr />
 
-        <div className="flex gap-5 p-8">
+        <div className="flex flex-col md:flex-row gap-5 p-8">
           <h3 className="min-w-[300px] font-bold text-lg">Payment methods</h3>
           <div className="max-w-[350px] w-full">
             <div className="">
-              <form>
+              <form onSubmit={handlePayment}>
                 {cardError && (
                   <small className="text-red-500">{cardError}</small>
                 )}
@@ -66,8 +109,22 @@ export default function Payment() {
                       <p>Total Order |</p> <CurrencyFormat amount={total} />
                     </span>
                   </div>
-                  <button className="mt-3.5 w-full border-none bg-[var(--primary-color)] rounded-md py-2 px-2.5 cursor-pointer hover:bg-[var(--primary-shade)]">
-                    Pay Now
+                  <button
+                    className="mt-3.5 w-full border-none bg-[var(--primary-color)] rounded-md py-2 px-2.5 cursor-pointer hover:bg-[var(--primary-shade)]"
+                    type="submit"
+                  >
+                    {processing ? (
+                      <div className="flex justify-center gap-2 items-center text-[#343434]">
+                        <ClipLoader
+                          color="gray"
+                          size={12}
+                          loading={processing}
+                        />
+                        <p>please wait ...</p>
+                      </div>
+                    ) : (
+                      "Pay Now"
+                    )}
                   </button>
                 </div>
               </form>
