@@ -25,10 +25,11 @@ export default function Auth() {
       signInWithEmailAndPassword(auth, inputs.email, inputs.password)
         .then((userInfo) => {
           dispatch({ type: "SET_USER", user: userInfo.user });
-          navigate(navStateData.redirect || "/");
+          navigate(navStateData?.redirect || "/");
         })
         .catch((error) => {
           setError(error.message);
+          console.log(error.message);
         })
         .finally(() => {
           setIsLoading({ ...isLoading, signIn: false });
@@ -38,7 +39,7 @@ export default function Auth() {
       createUserWithEmailAndPassword(auth, inputs.email, inputs.password)
         .then((userInfo) => {
           dispatch({ type: "SET_USER", user: userInfo.user });
-          navigate(navStateData.redirect || "/");
+          navigate(navStateData?.redirect || "/");
         })
         .catch((error) => {
           setError(error.message);
